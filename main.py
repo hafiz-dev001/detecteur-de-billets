@@ -1,62 +1,42 @@
-from __future__ import annotations
-
-import io
-from pathlib import Path
-from typing import Any
-
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, UploadFile, File
+import joblib
+import numpy as np
 from PIL import Image
+import io
 
-from fcfa_detector import FCFADetector
+app = FastAPI()
 
-MODEL_PATH = Path(__file__).resolve().parent / "fcfa_detector_model.pkl"
-
-detector = FCFADetector()
-
-
-def ensure_model_loaded() -> None:
-    if MODEL_PATH.exists():
-        detector.load(MODEL_PATH)
-        return
-
-    X, y = detector.build_dataset(samples_per_class=25)
-    detector.train(X, y)
-    detector.save(MODEL_PATH)
-
-
-ensure_model_loaded()
-
-app = FastAPI(title="FCFA Bill Detector API", version="1.0.0")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
+# Charger le modèle une seule fois au démarrage
+model = joblib.load("fcfa_detector_model.pkl")
 
 @app.get("/")
-def health() -> dict[str, Any]:
-    return {"status": "ok", "model": "fcfa_detector_model.pkl", "denominations": detector.denominations}
-
-
-@app.get("/health")
-def health_check() -> dict[str, str]:
-    return {"status": "ok"}
-
+def home():
+    return {
+        "status": "ok", 
+        "model": "fcfa_detector_model.pkl",
+        "denominations": ["500", "1000", "2000", "5000", "10000"]
+    }
 
 @app.post("/predict-image")
-async def predict_image(request: Request) -> dict[str, Any]:
-    body = await request.body()
-    if not body:
-        return {"status": "error", "message": "No image uploaded"}
-
-    try:
-        image = Image.open(io.BytesIO(body)).convert("RGB")
-    except Exception as exc:  # pragma: no cover - defensive branch
-        return {"status": "error", "message": f"Invalid image: {exc}"}
-
-    prediction = detector.predict_image(image)
-    return {"status": "ok", "prediction": prediction}
+async def predict_image(file: UploadFile = File(...)):
+    # Lire l'image envoyée
+    contents = await file.read()
+    image = Image.open(io.BytesIO(contents)).convert('RGB')
+    
+    # Redimensionner comme à l'entraînement - ta classe utilise 64x64
+    image = image.resize((64, 64))
+    
+    # Extraire features comme dans ta classe FCFAExtractor
+    arr = np.array(image).flatten()
+    hist = np.histogram(arr, bins=8, range=(0, 255))[0]
+    
+    # Concaténer pixels + histo comme dans _extract_features
+    features = np.concatenate([arr[:64*64], hist]).reshape(1, -1)
+    
+    # Prédiction
+    pred = model.predict(features)[0]
+    
+    return {
+        "denomination": str(pred),
+        "status": "success"
+    }
