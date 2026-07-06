@@ -1,0 +1,364 @@
+:root {
+    color-scheme: light;
+    --bg: #fff7f0;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --primary: #ff6b6b;
+    --primary-dark: #e85555;
+    --secondary: #5b7cff;
+    --secondary-dark: #4567e0;
+    --accent: #ffd166;
+    --border: #f0d8c6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #fff7f0 0%, #fef3c7 100%);
+    color: var(--text);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 107, 107, 0.15);
+}
+
+.brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.04em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: var(--secondary);
+}
+
+.icon-btn,
+.cta,
+.checkout-btn,
+.filter-btn,
+.add-btn {
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.icon-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0.7rem 0.9rem;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(91, 124, 255, 0.12);
+}
+
+main {
+    padding: 1.5rem 2rem 3rem;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+    border-radius: 24px;
+    margin-bottom: 2rem;
+    color: white;
+    box-shadow: 0 20px 45px rgba(91, 124, 255, 0.18);
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.hero .eyebrow {
+    color: white;
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+    margin: 0.2rem 0 0.5rem;
+}
+
+.cta,
+.checkout-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: var(--primary);
+    color: white;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+.cta:hover,
+.checkout-btn:hover,
+.add-btn:hover {
+    background: var(--primary-dark);
+}
+
+.hero-card {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--text);
+    border-radius: 20px;
+    padding: 1.2rem;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+}
+
+.products-section,
+.info-section,
+.contact-section {
+    margin-top: 2rem;
+}
+
+.info-section,
+.contact-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.4rem;
+    box-shadow: 0 10px 24px rgba(31, 41, 55, 0.06);
+}
+
+.contact-card {
+    text-align: center;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.filters {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+}
+
+.product-card {
+    background: var(--card);
+    padding: 1rem;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    box-shadow: 0 10px 24px rgba(31, 41, 55, 0.05);
+}
+
+.product-card .emoji {
+    font-size: 2rem;
+}
+
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.add-btn {
+    padding: 0.6rem 0.8rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    color: white;
+}
+
+.cart-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(400px, 100%);
+    height: 100vh;
+    background: white;
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+    transform: translateX(105%);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 30;
+}
+
+.payment-section {
+    margin: 0.8rem 0 0.6rem;
+    padding: 0.8rem;
+    background: #fff8f0;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.payment-title {
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.payment-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.payment-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.payment-btn.active {
+    background: var(--secondary);
+    color: white;
+    border-color: var(--secondary);
+}
+
+.payment-status {
+    margin-top: 0.6rem;
+    color: var(--secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cart-panel.open {
+    transform: translateX(0);
+}
+
+.cart-header,
+.cart-footer {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-items {
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: var(--bg);
+    border-radius: 12px;
+}
+
+.cart-item button {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+}
+
+.empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 1.4rem 1rem 2rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 760px) {
+
+    header,
+    main {
+        padding: 1rem;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}

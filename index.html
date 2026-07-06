@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="NovaShop propose une sélection moderne de produits design, utiles et premium pour votre quotidien." />
+    <meta name="keywords" content="ecommerce, shopping, boutique en ligne, produits modernes, NovaShop" />
+    <meta name="author" content="NovaShop" />
+    <meta name="theme-color" content="#ff6b6b" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="NovaShop | E-commerce moderne" />
+    <meta property="og:description"
+        content="Découvrez une boutique en ligne moderne avec produits premium et paiement simple." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NovaShop | E-commerce moderne" />
+    <meta name="twitter:description"
+        content="Découvrez une boutique en ligne moderne avec produits premium et paiement simple." />
+    <link rel="canonical" href="https://novashop.example.com/" />
+    <title>NovaShop | E-commerce</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">NovaShop</div>
+        <nav class="nav-links">
+            <a href="#products">Produits</a>
+            <a href="#about">À propos</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-actions">
+            <button class="icon-btn" id="cartToggle">🛒 <span id="cartCount">0</span></button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Nouveautés 2026</p>
+                <h1>Des produits modernes à portée de clic.</h1>
+                <p>Découvrez des articles design, utiles et premium pour votre quotidien.</p>
+                <a class="cta" href="#products">Explorer les produits</a>
+            </div>
+            <div class="hero-card">
+                <h3>Offre du moment</h3>
+                <p>Réduction de 20 % sur la collection de rentrée.</p>
+            </div>
+        </section>
+
+        <section id="about" class="info-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Notre histoire</p>
+                    <h2>À propos de NovaShop</h2>
+                </div>
+            </div>
+            <p>NovaShop réunit des produits soigneusement sélectionnés pour simplifier votre espace de vie, votre
+                routine et votre style. Chaque article est pensé pour allier qualité, esthétique et praticité.</p>
+        </section>
+
+        <section id="products" class="products-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Sélection</p>
+                    <h2>Produits populaires</h2>
+                </div>
+                <div class="filters" id="filters"></div>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="contact-card">
+                <p class="eyebrow">Contact</p>
+                <h2>Besoin d’aide ?</h2>
+                <p>Notre équipe répond rapidement à vos questions sur les commandes, la livraison ou nos produits.</p>
+                <a class="cta" id="contactButton" href="mailto:hello@novashop.fr?subject=Bonjour%20NovaShop">Écrire à
+                    NovaShop</a>
+            </div>
+        </section>
+    </main>
+
+    <aside class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3>Votre panier</h3>
+            <button class="icon-btn" id="closeCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total</span>
+                <strong id="cartTotal">0 €</strong>
+            </div>
+            <div class="payment-section">
+                <p class="payment-title">Moyen de paiement</p>
+                <div class="payment-options">
+                    <button class="payment-btn active" data-payment="card">💳 Carte</button>
+                    <button class="payment-btn" data-payment="paypal">💙 PayPal</button>
+                    <button class="payment-btn" data-payment="cash">💵 Cash</button>
+                </div>
+                <div class="payment-status" id="paymentStatus">Paiement par carte sélectionné.</div>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Passer la commande</button>
+        </div>
+    </aside>
+
+    <footer class="site-footer">
+        <p>NovaShop • Livraison rapide • Paiement sécurisé • Service client réactif</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
