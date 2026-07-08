@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import io
 
-app = FastAPI()
+app = FastAPI(docs_url="/", redoc_url=None, title="FCFA Detector API", version="1.0.0")
 
 # Charger le modèle une seule fois au démarrage
 model = joblib.load("fcfa_detector_model.pkl")
