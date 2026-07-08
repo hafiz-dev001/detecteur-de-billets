@@ -16,7 +16,8 @@ app.add_middleware(
 )
 
 # Charger le modèle une seule fois au démarrage
-model = joblib.load("fcfa_detector_model.pkl")
+model_payload = joblib.load("fcfa_detector_model.pkl")
+model = model_payload["model"]
 
 @app.get("/")
 def home():
@@ -26,26 +27,33 @@ def home():
         "denominations": ["500", "1000", "2000", "5000", "10000"]
     }
 
+def extract_features(image: Image.Image) -> np.ndarray:
+    img = image.resize((64, 64)).convert("RGB")
+    arr = np.array(img, dtype=np.float32)
+    gray = np.mean(arr, axis=2).flatten()
+
+    hist_r = np.histogram(arr[:, :, 0], bins=8, range=(0, 256))[0].astype(np.float32)
+    hist_g = np.histogram(arr[:, :, 1], bins=8, range=(0, 256))[0].astype(np.float32)
+    hist_b = np.histogram(arr[:, :, 2], bins=8, range=(0, 256))[0].astype(np.float32)
+
+    return np.concatenate([gray, hist_r, hist_g, hist_b]).reshape(1, -1)
+
+
 @app.post("/predict-image")
 async def predict_image(file: UploadFile = File(...)):
-    # Lire l'image envoyée
-    contents = await file.read()
-    image = Image.open(io.BytesIO(contents)).convert('RGB')
-    
-    # Redimensionner comme à l'entraînement - ta classe utilise 64x64
-    image = image.resize((64, 64))
-    
-    # Extraire features comme dans ta classe FCFAExtractor
-    arr = np.array(image).flatten()
-    hist = np.histogram(arr, bins=8, range=(0, 255))[0]
-    
-    # Concaténer pixels + histo comme dans _extract_features
-    features = np.concatenate([arr[:64*64], hist]).reshape(1, -1)
-    
-    # Prédiction
-    pred = model.predict(features)[0]
-    
-    return {
-        "denomination": str(pred),
-        "status": "success"
-    }
+    try:
+        contents = await file.read()
+        image = Image.open(io.BytesIO(contents)).convert("RGB")
+
+        features = extract_features(image)
+        pred = model.predict(features)[0]
+
+        return {
+            "denomination": str(pred),
+            "status": "success"
+        }
+    except Exception as exc:
+        return {
+            "status": "error",
+            "message": f"Prediction failed: {exc}"
+        }
